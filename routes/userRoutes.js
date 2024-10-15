@@ -1,7 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User.js');
+const User = require('../models/User'); // Removed .js extension
 const router = express.Router();
 
 router.post('/register', async (req, res) => {
@@ -19,7 +19,7 @@ router.post('/login', async (req, res) => {
   const user = await User.findOne({ email });
 
   if (user && await bcrypt.compare(password, user.password)) {
-    const token = jwt.sign({ id: user._id }, 'your_jwt_secret', { expiresIn: '1h' });
+    const token = jwt.sign({ id: user.id }, 'your_jwt_secret', { expiresIn: '1h' }); // Replaced _id with id
     res.json({ token });
   } else {
     res.status(401).json({ error: 'Invalid email or password' });

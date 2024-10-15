@@ -6,14 +6,16 @@ const authenticateJWT = (req, res, next) => {
   if (token) {
     jwt.verify(token, 'your_jwt_secret', (err, user) => {
       if (err) {
-        return res.sendStatus(403);
+        return res.sendStatus(403); // Forbidden
       }
       req.user = user;
-      return next();
+      return next(); // Proceed to the next middleware
     });
   } else {
-    return res.sendStatus(401);
+    return res.sendStatus(401); // Unauthorized
   }
+
+  return null; // Explicitly return null if no conditions are met
 };
 
 module.exports = authenticateJWT;
